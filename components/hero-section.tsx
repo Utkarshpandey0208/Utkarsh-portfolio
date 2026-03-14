@@ -120,12 +120,12 @@ export function HeroSection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="rounded-full px-8 border-border/60 hover:bg-white/5 hover:border-border"
+                className="rounded-full px-8 border-violet-500/40 hover:bg-violet-500/10 hover:border-violet-400"
                 asChild
               >
-                <a href="/resume.pdf" download="Utkarsh_Pandey_Resume.pdf">
+                <a href="/resume.pdf" download="UtkarshPandey_Resume.pdf">
                   <Download className="w-4 h-4 mr-2" />
-                  Download
+                  Download Resume
                 </a>
               </Button>
             </motion.div>
