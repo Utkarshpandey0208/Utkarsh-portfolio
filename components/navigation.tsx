@@ -92,7 +92,8 @@ export function Navigation() {
     asChild
     className="rounded-full px-5 bg-gradient-to-r from-violet-600 to-blue-600 hover:from-violet-500 hover:to-blue-500 text-white border-0 shadow-lg shadow-violet-500/25 flex items-center gap-2"
   >
-    <a href="/resume.pdf" download="UtkarshPandey_Resume.pdf">
+    <a href="/UtkarshPandey_Resume.pdf
+" download="UtkarshPandey_Resume.pdf">
       <Download className="w-4 h-4" />
       Resume
     </a>

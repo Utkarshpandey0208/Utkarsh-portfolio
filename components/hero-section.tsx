@@ -123,7 +123,8 @@ export function HeroSection() {
                 className="rounded-full px-8 border-violet-500/40 hover:bg-violet-500/10 hover:border-violet-400"
                 asChild
               >
-                <a href="/resume.pdf" download="UtkarshPandey_Resume.pdf">
+                <a href="/UtkarshPandey_Resume.pdf
+" download="UtkarshPandey_Resume.pdf">
                   <Download className="w-4 h-4 mr-2" />
                   Download Resume
                 </a>
