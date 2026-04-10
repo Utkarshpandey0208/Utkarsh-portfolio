@@ -62,13 +62,13 @@ const projects: Project[] = [
     title: "Netflix Data Analysis",
     subtitle: "Content Trend Analysis",
     domain: "Data Analysis",
-    technologies: ["Python", "Pandas", "NumPy", "Power BI"],
+    technologies: ["Python", "Pandas", "NumPy"],
     description:
       "Performed exploratory data analysis on a Netflix dataset to identify content trends and distribution patterns. Data preprocessing and cleaning were conducted using Pandas and NumPy, followed by analysis of content types, release trends, genre distribution, and regional content availability. Insights were visualized through interactive Power BI dashboards.",
     architecture:
       "Raw CSV dataset → Pandas cleaning & null handling → Feature engineering (year, genre split) → Exploratory analysis (value counts, groupby) → Power BI dashboard with slicers for content type, country, and release year.",
-    github: "https://github.com/Utkarshpandey0208/",
-    demo: "#",
+    github: "https://github.com/Utkarshpandey0208/Netflix-Analysis",
+    demo: "https://github.com/Utkarshpandey0208/Netflix-Analysis",
     previewIcon: BarChart3,
     iconColor: "text-cyan-400",
     gradientFrom: "from-cyan-500/20",
