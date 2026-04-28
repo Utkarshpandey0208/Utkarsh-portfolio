@@ -3,7 +3,7 @@
 import { useState } from "react"
 import type { ElementType } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Github, ExternalLink, Film, BarChart3, GraduationCap, Car, RotateCcw } from "lucide-react"
+import { Github, ExternalLink, Film, BarChart3, GraduationCap, Car, Hotel, RotateCcw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 type Domain = "All" | "AI / ML" | "Backend" | "Data Analysis"
@@ -17,6 +17,7 @@ interface Project {
   architecture?: string
   github: string
   demo: string
+  previewImage?: string
   previewIcon: ElementType
   iconColor: string
   gradientFrom: string
@@ -56,6 +57,23 @@ const projects: Project[] = [
     previewIcon: GraduationCap,
     iconColor: "text-blue-400",
     gradientFrom: "from-blue-500/20",
+    gradientTo: "to-blue-600/5",
+  },
+  {
+    title: "Hotel Reservation System",
+    subtitle: "Full-Stack Booking Platform",
+    domain: "Backend",
+    technologies: ["Java", "Spring Boot", "JPA/Hibernate", "MySQL", "JavaScript", "Fetch API", "HTML", "CSS", "REST API"],
+    description:
+      "Developed a full-stack hotel reservation platform enabling users to manage bookings with real-time interaction. Implemented RESTful APIs for seamless frontend-backend communication and utilized JPA/Hibernate for efficient database operations.",
+    architecture:
+      "Frontend (HTML/CSS/JS) → API Calls (Fetch) → Spring Boot Controllers → Service Layer → JPA/Hibernate → MySQL → Response Handling.",
+    github: "https://github.com/Utkarshpandey0208/Grand-Hotel-Reservation-System-Springboot",
+    demo: "https://grand-hotel-reservation-system-ut.vercel.app/",
+    previewImage: "/images/hotel-reservation-preview.svg",
+    previewIcon: Hotel,
+    iconColor: "text-sky-400",
+    gradientFrom: "from-sky-500/20",
     gradientTo: "to-blue-600/5",
   },
   {
@@ -99,7 +117,13 @@ const domainBadge: Record<Exclude<Domain, "All">, string> = {
 }
 
 // ─── Flip Card ────────────────────────────────────────────────────────────────
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: Project
+  index: number
+}) {
   const [flipped, setFlipped] = useState(false)
   const PreviewIcon = project.previewIcon
 
@@ -109,9 +133,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       initial={{ opacity: 0, scale: 0.92, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.92, y: -20 }}
-      transition={{ duration: 0.4, delay: index * 0.08, layout: { duration: 0.3 } }}
+      whileHover={{ y: -8 }}
+      transition={{
+        duration: 0.4,
+        delay: index * 0.08,
+        ease: "easeOut",
+        layout: { duration: 0.3 },
+      }}
       // Fixed height so front & back are always the same size
-      className="relative h-[480px]"
+      className="relative h-[480px] w-[min(88vw,35rem)] flex-shrink-0 snap-center"
       style={{ perspective: "1200px" }}
     >
       {/* Inner wrapper that flips */}
@@ -126,18 +156,31 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         {/* ── FRONT ── */}
         <div
-          className="absolute inset-0 glass rounded-2xl overflow-hidden group hover:border-violet-500/30 transition-all duration-300 flex flex-col"
+          className="absolute inset-0 glass rounded-2xl overflow-hidden group hover:border-violet-500/40 hover:shadow-[0_20px_54px_-34px_rgba(139,92,246,0.8)] transition-all duration-300 flex flex-col"
           style={{ backfaceVisibility: "hidden", WebkitBackfaceVisibility: "hidden" }}
         >
           {/* Preview banner */}
           <div
-            className={`relative h-36 flex-shrink-0 bg-gradient-to-br ${project.gradientFrom} ${project.gradientTo} border-b border-border/40`}
+            className={`relative ${project.previewImage ? "h-52" : "h-36"} flex-shrink-0 bg-gradient-to-br ${project.gradientFrom} ${project.gradientTo} border-b border-border/40`}
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-14 h-14 rounded-2xl bg-background/60 border border-border/50 flex items-center justify-center">
+            {project.previewImage ? (
+              <img
+                src={project.previewImage}
+                alt={`${project.title} preview`}
+                className="absolute inset-0 h-full w-full object-cover object-left-top"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-2xl bg-background/60 border border-border/50 flex items-center justify-center">
+                  <PreviewIcon className={`w-7 h-7 ${project.iconColor}`} />
+                </div>
+              </div>
+            )}
+            {project.previewImage && (
+              <div className="absolute right-4 top-4 w-11 h-11 rounded-2xl bg-background/70 border border-border/50 flex items-center justify-center backdrop-blur-sm">
                 <PreviewIcon className={`w-7 h-7 ${project.iconColor}`} />
               </div>
-            </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent" />
             {/* Hover hint */}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -206,7 +249,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
         {/* ── BACK ── */}
         <div
-          className="absolute inset-0 glass rounded-2xl flex flex-col border-violet-500/30 overflow-hidden"
+          className="absolute inset-0 glass rounded-2xl flex flex-col border-violet-500/30 hover:shadow-[0_20px_54px_-34px_rgba(139,92,246,0.8)] overflow-hidden transition-shadow duration-300"
           style={{
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
@@ -361,14 +404,23 @@ export function ProjectsSection() {
           ))}
         </motion.div>
 
-        {/* Grid */}
-        <motion.div layout className="grid md:grid-cols-2 gap-6">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <ProjectCard key={project.title} project={project} index={index} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
+        {/* Horizontal Scroll */}
+        <div className="relative">
+          <motion.div
+            layout
+            className="scrollbar-hide flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-[calc((100%_-_min(88vw,35rem))_/_2)] py-4"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project, index) => (
+                <ProjectCard
+                  key={project.title}
+                  project={project}
+                  index={index}
+                />
+              ))}
+            </AnimatePresence>
+          </motion.div>
+        </div>
       </div>
     </section>
   )
