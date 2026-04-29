@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState } from "react"
 import type { ElementType } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Github, ExternalLink, Film, BarChart3, GraduationCap, Car, Hotel, RotateCcw } from "lucide-react"
+import { Github, ExternalLink, Film, BarChart3, GraduationCap, Car, Hotel, RotateCcw, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 type Domain = "All" | "AI / ML" | "Backend" | "Data Analysis"
@@ -344,10 +344,22 @@ function ProjectCard({
 // ─── Section ─────────────────────────────────────────────────────────────────
 export function ProjectsSection() {
   const [activeFilter, setActiveFilter] = useState<Domain>("All")
+  const projectsScrollRef = useRef<HTMLDivElement>(null)
 
   const filteredProjects = projects.filter(
     (project) => activeFilter === "All" || project.domain === activeFilter
   )
+
+  const scrollProjects = (direction: "left" | "right") => {
+    const scrollContainer = projectsScrollRef.current
+
+    if (!scrollContainer) return
+
+    scrollContainer.scrollBy({
+      left: direction === "left" ? -scrollContainer.clientWidth * 0.82 : scrollContainer.clientWidth * 0.82,
+      behavior: "smooth",
+    })
+  }
 
   return (
     <section id="projects" className="py-24 px-6 relative">
@@ -406,7 +418,26 @@ export function ProjectsSection() {
 
         {/* Horizontal Scroll */}
         <div className="relative">
+          <button
+            type="button"
+            onClick={() => scrollProjects("left")}
+            aria-label="Scroll projects left"
+            className="absolute left-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground shadow-lg shadow-black/30 backdrop-blur-md transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-500/15 hover:text-violet-300 md:flex"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollProjects("right")}
+            aria-label="Scroll projects right"
+            className="absolute right-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border/60 bg-background/80 text-foreground shadow-lg shadow-black/30 backdrop-blur-md transition-all duration-300 hover:border-violet-500/40 hover:bg-violet-500/15 hover:text-violet-300 md:flex"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
           <motion.div
+            ref={projectsScrollRef}
             layout
             className="scrollbar-hide flex gap-6 overflow-x-auto overflow-y-hidden snap-x snap-mandatory px-[calc((100%_-_min(88vw,35rem))_/_2)] py-4"
           >
